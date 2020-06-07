@@ -36,6 +36,7 @@ canvas1.pack()
 def get_summoner_spell(txt):
     spells = []
     count = 0
+    # get sepll images
     if "//ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerFlash.png" in txt and count < 2:
         spells.append("https://ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerFlash.png")
         count += 1
@@ -64,7 +65,7 @@ def get_summoner_spell(txt):
         spells.append("https://ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerExhaust.png")
         count += 1
     i=0
-    for spell in spells:
+    for spell in spells:# Create spell images
         img_data = requests.get(spell).content
         with open('spell%d.jpg'%i,'wb') as handle:
             handle.write(img_data)
@@ -111,7 +112,7 @@ def getRunes(champion):
         runeZ = runeX.replace(":","")
         runeZ = runeZ.replace(" ","")
         runeZ = runeZ.replace("'","")
-        if runeZ == "FontofLife":
+        if runeZ == "FontofLife":# Some runes have different name on the URL
              runeZ = "FontOfLife"
         if runeZ == "PresstheAttack":
             runeZ = "PressTheAttack"
@@ -134,7 +135,7 @@ def getRunes(champion):
         
 
         if runeX in runePrecision:
-            if runeZ == "Triumph":
+            if runeZ == "Triumph":# some runes have different url
                 urlRunes.append("https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Triumph.png")
             elif runeZ == "LethalTempo":
                 urlRunes.append("https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png")
@@ -222,7 +223,7 @@ def searchChampion():
         label.image = image # keep a reference!
         label.pack()
         labels.append(label)
-        if i > 3:
+        if i > 3:# more lol style, the 2 secondary runes go into different position
             canvas1.create_image(200+60,pos-100,image=image)
         else:
             canvas1.create_image(200,100+pos,image=image)
