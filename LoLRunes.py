@@ -4,7 +4,7 @@ import requests
 from PIL import Image, ImageTk
 from urllib.request import urlopen
 
-
+#Remember name of runes
 runePrecision = ["Press the Attack","Lethal Tempo","Fleet Footwork","Conqueror","Overheal","Triumph","Presence of Mind","Legend: Alacrity","Legend: Tenacity","Legend: Bloodline","Coup de Grace","Cut Down"]
 runeDomination = ["Electrocute","Predator","Dark Harvest","Hail of Blades","Cheap Shot","Taste of Blood","Sudden Impact","Zombie Ward","Ghost Poro","Eyeball Collection","Ravenous Hunter","Ingenious Hunter","Relentless Hunter","Ultimate Hunter"]
 runeSorcery = ["Summon Aery","Manaflow Band","Arcane Comet","Phase Rush","Nullifying Orb","Nimbus Cloak","Transcendence","Celerity","Absolute Focus","Scorch","Waterwalking","Gathering Storm","Unflinching","Last Stand"]
@@ -12,6 +12,8 @@ runeResolve = ["Grasp of the Undying","Aftershock","Guardian","Demolish","Font o
 runeInspiration = ["Glacial Augment","Unsealed Spellbook","Prototype: Omnistone","Hextech Flash","Magical Footwear","Perfect Timing","Future's Market","Minion Dematerializer","Biscuit Delivery","Cosmic Insight","Time Warp Tonic"]
 
 allRunes = runePrecision + runeDomination + runeSorcery + runeResolve + runeInspiration
+
+version_control = "10.16.1"
 
 def get_between(txt, first, last):  # Pega a string entre first e last
     try:
@@ -36,36 +38,39 @@ canvas1.pack()
 def get_summoner_spell(txt):
     spells = []
     count = 0
-    # get sepll images
-    if "//ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerFlash.png" in txt and count < 2:
-        spells.append("https://ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerFlash.png")
+
+    #Get spell images
+    if f"//ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerFlash.png" in txt and count < 2:
+        spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerFlash.png")
         count += 1
 
-    if "//ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerHaste.png" in txt and count < 2:
-        spells.append("https://ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerHaste.png")
+    if f"//ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerHaste.png" in txt and count < 2:
+        spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerHaste.png")
         count += 1
 
-    if "//ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerTeleport.png" in txt and count < 2:
-        spells.append("https://ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerTeleport.png")
+    if f"//ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerTeleport.png" in txt and count < 2:
+        spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerTeleport.png")
         count += 1
         
-    if "//ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerDot.png" in txt and count < 2:
-        spells.append("https://ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerDot.png")
+    if f"//ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerDot.png" in txt and count < 2:
+        spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerDot.png")
         count += 1
 
-    if "//ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerSmite.png" in txt and count < 2:
-        spells.append("https://ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerSmite.png")
+    if f"//ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerSmite.png" in txt and count < 2:
+        spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerSmite.png")
         count += 1
 
-    if "//ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerBarrier.png" in txt and count < 2:
-        spells.append("https://ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerBarrier.png")
+    if f"//ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerBarrier.png" in txt and count < 2:
+        spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerBarrier.png")
         count += 1
 
-    if "//ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerExhaust.png" in txt and count < 2:
-        spells.append("https://ddragon.leagueoflegends.com/cdn/10.11.1/img/spell/SummonerExhaust.png")
+    if f"//ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerExhaust.png" in txt and count < 2:
+        spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerExhaust.png")
         count += 1
+
+    # Create spell images
     i=0
-    for spell in spells:# Create spell images
+    for spell in spells:
         img_data = requests.get(spell).content
         with open('spell%d.jpg'%i,'wb') as handle:
             handle.write(img_data)
@@ -185,7 +190,7 @@ def getRunes(champion):
 
 labelRunes = tk.Label(root,text="")
 
-canvas1.create_window(100,130,window=labelRunes)
+canvas1.create_window(100,140,window=labelRunes)
 
 entry1 = tk.Entry(root)
 canvas1.create_window(200,20,window=entry1)
@@ -200,7 +205,7 @@ def searchChampion():
     for labelz in labels: labelz.destroy()
 
     try: #Champion Splash Art
-        img_data = requests.get("http://ddragon.leagueoflegends.com/cdn/10.11.1/img/champion/%s.png"%x1).content
+        img_data = requests.get(f"http://ddragon.leagueoflegends.com/cdn/{version_control}/img/champion/%s.png"%x1).content
         with open('champsplash.jpg','wb') as handle:
             handle.write(img_data)
         img = Image.open('champsplash.jpg')
@@ -223,7 +228,7 @@ def searchChampion():
         label.image = image # keep a reference!
         label.pack()
         labels.append(label)
-        if i > 3:# more lol style, the 2 secondary runes go into different position
+        if i > 3:# Another error from riot itself
             canvas1.create_image(200+60,pos-100,image=image)
         else:
             canvas1.create_image(200,100+pos,image=image)
