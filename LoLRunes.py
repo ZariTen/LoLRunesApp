@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 from PIL import Image, ImageTk
 from urllib.request import urlopen
+import os
 
 #Remember name of runes
 runePrecision = ["Press the Attack","Lethal Tempo","Fleet Footwork","Conqueror","Overheal","Triumph","Presence of Mind","Legend: Alacrity","Legend: Tenacity","Legend: Bloodline","Coup de Grace","Cut Down"]
@@ -13,6 +14,11 @@ runeInspiration = ["Glacial Augment","Unsealed Spellbook","Prototype: Omnistone"
 
 allRunes = runePrecision + runeDomination + runeSorcery + runeResolve + runeInspiration
 
+path = os.getcwd()
+
+if not os.path.isdir(f"{path}/cache"):
+    os.mkdir(f"{path}/cache")
+    
 version_control = "10.16.1"
 
 def get_between(txt, first, last):  # Pega a string entre first e last
@@ -175,7 +181,7 @@ def getRunes(champion):
     indexImg = 0
     for urllR in urlRunes:
         img_data = requests.get(urllR).content
-        with open('%drune.png'%indexImg,'wb') as handle:
+        with open(f'{path}/cache/{indexImg}rune.png','wb') as handle:
             handle.write(img_data)
         indexImg+=1
         
@@ -206,9 +212,9 @@ def searchChampion():
 
     try: #Champion Splash Art
         img_data = requests.get(f"http://ddragon.leagueoflegends.com/cdn/{version_control}/img/champion/%s.png"%x1).content
-        with open('champsplash.jpg','wb') as handle:
+        with open(f'{path}/cache/champsplash.jpg','wb') as handle:
             handle.write(img_data)
-        img = Image.open('champsplash.jpg')
+        img = Image.open(f'{path}/cache/champsplash.jpg')
         img = img.resize((50,50),Image.ANTIALIAS)
         image = ImageTk.PhotoImage(img)
         label = tk.Label(image=image)
@@ -219,7 +225,7 @@ def searchChampion():
     except:pass
 
     for i in range(6):
-        img = Image.open('%drune.png'%indexImg)
+        img = Image.open(f'{path}/cache/{indexImg}rune.png')
         img = img.resize((50,50),Image.ANTIALIAS)
         image = ImageTk.PhotoImage(img)
         
