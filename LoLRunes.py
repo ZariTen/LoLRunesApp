@@ -56,9 +56,9 @@ def get_summoner_spell(txt):
     i=0
     for spell in spells:
         img_data = requests.get(spell).content
-        with open('spell%d.jpg'%i,'wb') as handle:
+        with open('cache/spell%d.jpg'%i,'wb') as handle:
             handle.write(img_data)
-        img = Image.open('spell%d.jpg'%i)
+        img = Image.open('cache/spell%d.jpg'%i)
         img = img.resize((50,50),Image.ANTIALIAS)
         image = ImageTk.PhotoImage(img)
         label = tk.Label(image=image)
