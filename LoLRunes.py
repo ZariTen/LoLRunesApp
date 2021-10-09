@@ -19,7 +19,7 @@ path = os.getcwd()
 if not os.path.isdir(f"{path}/cache"):
     os.mkdir(f"{path}/cache")
     
-version_control = "10.16.1"
+version_control = "11.18.1"
 
 def get_between(txt, first, last):  # Pega a string entre first e last
     try:
@@ -30,7 +30,7 @@ def get_between(txt, first, last):  # Pega a string entre first e last
 
 root = tk.Tk()
 root.title("League of Legends Runes")
-root.resizable(False,False)
+root.resizable(True,True)
 
 
 width = 300
@@ -44,35 +44,13 @@ canvas1.pack()
 def get_summoner_spell(txt):
     spells = []
     count = 0
+    spellImages = ["SummonerFlash.png","SummonerHaste.png","SummonerTeleport.png","SummonerDot.png","SummonerSmite.png","SummonerBarrier.png","SummonerExhaust.png"]
 
     #Get spell images
-    if f"//ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerFlash.png" in txt and count < 2:
-        spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerFlash.png")
-        count += 1
-
-    if f"//ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerHaste.png" in txt and count < 2:
-        spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerHaste.png")
-        count += 1
-
-    if f"//ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerTeleport.png" in txt and count < 2:
-        spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerTeleport.png")
-        count += 1
-        
-    if f"//ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerDot.png" in txt and count < 2:
-        spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerDot.png")
-        count += 1
-
-    if f"//ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerSmite.png" in txt and count < 2:
-        spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerSmite.png")
-        count += 1
-
-    if f"//ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerBarrier.png" in txt and count < 2:
-        spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerBarrier.png")
-        count += 1
-
-    if f"//ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerExhaust.png" in txt and count < 2:
-        spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/SummonerExhaust.png")
-        count += 1
+    for spellImg in spellImages:
+        if spellImg in txt and count < 2:
+            spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/{spellImg}")
+            count+=1
 
     # Create spell images
     i=0
