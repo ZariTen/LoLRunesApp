@@ -33,10 +33,11 @@ root.title("League of Legends Runes")
 root.resizable(True,True)
 
 
-width = 300
-height = 300
+width = 800
+height = 600
 canvas1 = tk.Canvas(root,width=width,height=height)
-background = ImageTk.PhotoImage(file="background.png")
+background_image = Image.open("background.png").resize((800,600),Image.ANTIALIAS)
+background = ImageTk.PhotoImage(image=background_image)
 canvas1.create_image(0,0,image=background,anchor="nw")
 canvas1.configure(background='grey')
 canvas1.pack()
@@ -65,7 +66,7 @@ def get_summoner_spell(txt):
         label.image = image # keep a reference!
         label.pack()
         labels.append(label)
-        canvas1.create_image(50+i*70,250,image=image)
+        canvas1.create_image(150+i*70,250,image=image)
         i+=1
 
 
@@ -167,17 +168,17 @@ def getRunes(champion):
 
 labelRunes = tk.Label(root,text="")
 
-canvas1.create_window(100,140,window=labelRunes)
+canvas1.create_window(360,340,window=labelRunes)
 
-entry1 = tk.Entry(root)
-canvas1.create_window(200,20,window=entry1)
+champion_name_entry = tk.Entry(root)
+canvas1.create_window(400,100,window=champion_name_entry)
 image = None
 labels =[]
 def searchChampion():
-    x1 = entry1.get()
+    x1 = champion_name_entry.get()
     runes = getRunes(x1)
     labelRunes.config(text=''.join(runes))
-    pos=0
+    pos=150
     indexImg=0
     for labelz in labels: labelz.destroy()
 
@@ -186,29 +187,29 @@ def searchChampion():
         with open(f'{path}/cache/champsplash.jpg','wb') as handle:
             handle.write(img_data)
         img = Image.open(f'{path}/cache/champsplash.jpg')
-        img = img.resize((50,50),Image.ANTIALIAS)
+        img = img.resize((100,100),Image.ANTIALIAS)
         image = ImageTk.PhotoImage(img)
         label = tk.Label(image=image)
-        label.image = image # keep a reference!
+        label.image = image
         label.pack()
         labels.append(label)
-        canvas1.create_image(100,40,image=image)
+        canvas1.create_image(200,120,image=image)
     except:pass
 
-    for i in range(6):
+    for rune_count in range(6):
         img = Image.open(f'{path}/cache/{indexImg}rune.png')
         img = img.resize((50,50),Image.ANTIALIAS)
         image = ImageTk.PhotoImage(img)
         
 
         label = tk.Label(image=image)
-        label.image = image # keep a reference!
+        label.image = image
         label.pack()
         labels.append(label)
-        if i > 3:# Another error from riot itself
-            canvas1.create_image(200+60,pos-100,image=image)
+        if rune_count > 3:
+            canvas1.create_image(490+60,pos-100,image=image)
         else:
-            canvas1.create_image(200,100+pos,image=image)
+            canvas1.create_image(490,100+pos,image=image)
         
         pos+= 50
         indexImg+=1
@@ -217,8 +218,8 @@ def searchChampion():
     
     
     
-button1 = tk.Button(text='Search for champion', command=searchChampion)
-canvas1.create_window(200, 50, window=button1)
+search_champion_btn = tk.Button(text='Search for champion', command=searchChampion)
+canvas1.create_window(400, 150, window=search_champion_btn)
 
 
 
