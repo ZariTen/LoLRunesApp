@@ -41,37 +41,9 @@ canvas1.create_image(0,0,image=background,anchor="nw")
 canvas1.configure(background='grey')
 canvas1.pack()
 
-def get_summoner_spell(txt):
-    spells = []
-    spellImages = ["SummonerFlash.png","SummonerHaste.png","SummonerTeleport.png","SummonerDot.png","SummonerSmite.png","SummonerBarrier.png","SummonerExhaust.png"]
-
-    #Get spell images
-    spell_limite = 0
-    for spellImg in spellImages:
-        if spellImg in txt and spell_limite < 2:
-            spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/{spellImg}")
-            spell_limite+=1
-
-    # Create spell images
-    for spell_count,spell in enumerate(spells):
-        img_data = requests.get(spell).content
-        with open('cache/spell%d.jpg'%spell_count,'wb') as handle:
-            handle.write(img_data)
-        img = Image.open('cache/spell%d.jpg'%spell_count)
-        img = img.resize((50,50),Image.ANTIALIAS)
-        image = ImageTk.PhotoImage(img)
-        label = tk.Label(image=image)
-        label.image = image # keep a reference!
-        label.pack()
-        labels.append(label)
-        canvas1.create_image(150+spell_count*70,250,image=image)
-
-
-
 def getRunes(champion):
     url = "https://champion.gg/champion/"+champion
     html = requests.get(url).text
-    get_summoner_spell(html)
     soup = BeautifulSoup(html,features="html.parser")
     runes = []
     
