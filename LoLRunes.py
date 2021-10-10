@@ -91,7 +91,7 @@ def getRunes(champion):
     txt = text.splitlines()
     for line in txt:
         for rune in allRunes:
-            if line == rune and limite < 6:
+            if rune in line and limite < 6:
                 runes.append(rune+"\n")
                 limite += 1
 
@@ -162,13 +162,6 @@ def getRunes(champion):
         with open(f'{path}/cache/{indexImg}rune.png','wb') as handle:
             handle.write(img_data)
         indexImg+=1
-        
-    
-
-
-    
-    
-    #canvas1.create_window(300,100+pos,window=label3)
 
     return runes
 
