@@ -2,7 +2,6 @@ import tkinter as tk
 from bs4 import BeautifulSoup
 import requests
 from PIL import Image, ImageTk
-from urllib.request import urlopen
 import os
 
 #Remember name of runes
@@ -29,7 +28,7 @@ def get_between(txt, first, last):  # Pega a string entre first e last
         return ""
 
 root = tk.Tk()
-root.title("League of Legends Runes")
+root.title("LoLRunes")
 root.resizable(True,True)
 
 
@@ -44,30 +43,28 @@ canvas1.pack()
 
 def get_summoner_spell(txt):
     spells = []
-    count = 0
     spellImages = ["SummonerFlash.png","SummonerHaste.png","SummonerTeleport.png","SummonerDot.png","SummonerSmite.png","SummonerBarrier.png","SummonerExhaust.png"]
 
     #Get spell images
+    spell_limite = 0
     for spellImg in spellImages:
-        if spellImg in txt and count < 2:
+        if spellImg in txt and spell_limite < 2:
             spells.append(f"https://ddragon.leagueoflegends.com/cdn/{version_control}/img/spell/{spellImg}")
-            count+=1
+            spell_limite+=1
 
     # Create spell images
-    i=0
-    for spell in spells:
+    for spell_count,spell in enumerate(spells):
         img_data = requests.get(spell).content
-        with open('cache/spell%d.jpg'%i,'wb') as handle:
+        with open('cache/spell%d.jpg'%spell_count,'wb') as handle:
             handle.write(img_data)
-        img = Image.open('cache/spell%d.jpg'%i)
+        img = Image.open('cache/spell%d.jpg'%spell_count)
         img = img.resize((50,50),Image.ANTIALIAS)
         image = ImageTk.PhotoImage(img)
         label = tk.Label(image=image)
         label.image = image # keep a reference!
         label.pack()
         labels.append(label)
-        canvas1.create_image(150+i*70,250,image=image)
-        i+=1
+        canvas1.create_image(150+spell_count*70,250,image=image)
 
 
 
@@ -157,12 +154,10 @@ def getRunes(champion):
     
     
     # append to list in order to keep the reference
-    indexImg = 0
-    for urllR in urlRunes:
+    for indexImg,urllR in enumerate(urlRunes):
         img_data = requests.get(urllR).content
         with open(f'{path}/cache/{indexImg}rune.png','wb') as handle:
             handle.write(img_data)
-        indexImg+=1
 
     return runes
 
@@ -175,15 +170,15 @@ canvas1.create_window(400,100,window=champion_name_entry)
 image = None
 labels =[]
 def searchChampion():
-    x1 = champion_name_entry.get()
-    runes = getRunes(x1)
+    champion_name = champion_name_entry.get()
+    runes = getRunes(champion_name)
     labelRunes.config(text=''.join(runes))
     pos=150
     indexImg=0
     for labelz in labels: labelz.destroy()
 
     try: #Champion Splash Art
-        img_data = requests.get(f"http://ddragon.leagueoflegends.com/cdn/{version_control}/img/champion/%s.png"%x1).content
+        img_data = requests.get(f"http://ddragon.leagueoflegends.com/cdn/{version_control}/img/champion/{champion_name}.png").content
         with open(f'{path}/cache/champsplash.jpg','wb') as handle:
             handle.write(img_data)
         img = Image.open(f'{path}/cache/champsplash.jpg')
@@ -214,14 +209,8 @@ def searchChampion():
         pos+= 50
         indexImg+=1
         root.geometry('{}x{}'.format(width, height))
-    
-    
-    
+     
     
 search_champion_btn = tk.Button(text='Search for champion', command=searchChampion)
 canvas1.create_window(400, 150, window=search_champion_btn)
-
-
-
-
 root.mainloop()
