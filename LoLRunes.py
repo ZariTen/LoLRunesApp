@@ -165,16 +165,18 @@ def fetch_champion_splash(champion_name):
     with open(f'{path}/cache/champsplash.jpg', 'wb') as handle:
         handle.write(img_data)
 
+
 def add_champion_splash(champion_name):
-        fetch_champion_splash(champion_name)
-        img = Image.open(f'{path}/cache/champsplash.jpg')
-        img = img.resize((100, 100), Image.Resampling.LANCZOS)
-        image = ImageTk.PhotoImage(img)
-        label = tk.Label(image=image)
-        label.image = image
-        label.pack()
-        labels.append(label)
-        canvas1.create_image(200, 120, image=image)
+    fetch_champion_splash(champion_name)
+    img = Image.open(f'{path}/cache/champsplash.jpg')
+    img = img.resize((100, 100), Image.Resampling.LANCZOS)
+    image = ImageTk.PhotoImage(img)
+    label = tk.Label(image=image)
+    label.image = image
+    label.pack()
+    labels.append(label)
+    canvas1.create_image(200, 120, image=image)
+
 
 def add_champion_runes():
     rune_ypos = 150
@@ -194,18 +196,19 @@ def add_champion_runes():
 
         rune_ypos += 50
         root.geometry('{}x{}'.format(width, height))
+
+
 def searchChampion():
     champion_name = champion_name_entry.get()
     labelRunes.config(text=''.join(getRunes(champion_name)))
     for labelz in labels:
         labelz.destroy()
 
-    try: 
+    try:
         add_champion_splash(champion_name)
         add_champion_runes()
     except:
         pass
-
 
 
 search_champion_btn = tk.Button(
