@@ -35,7 +35,7 @@ root.resizable(True,True)
 width = 800
 height = 600
 canvas1 = tk.Canvas(root,width=width,height=height)
-background_image = Image.open("background.png").resize((800,600),Image.ANTIALIAS)
+background_image = Image.open("background.png").resize((800,600),Image.Resampling.LANCZOS)
 background = ImageTk.PhotoImage(image=background_image)
 canvas1.create_image(0,0,image=background,anchor="nw")
 canvas1.configure(background='grey')
@@ -154,7 +154,7 @@ def searchChampion():
         with open(f'{path}/cache/champsplash.jpg','wb') as handle:
             handle.write(img_data)
         img = Image.open(f'{path}/cache/champsplash.jpg')
-        img = img.resize((100,100),Image.ANTIALIAS)
+        img = img.resize((100,100),Image.Resampling.LANCZOS)
         image = ImageTk.PhotoImage(img)
         label = tk.Label(image=image)
         label.image = image
@@ -165,7 +165,7 @@ def searchChampion():
 
     for rune_count in range(6):
         img = Image.open(f'{path}/cache/{indexImg}rune.png')
-        img = img.resize((50,50),Image.ANTIALIAS)
+        img = img.resize((50,50),Image.Resampling.LANCZOS)
         image = ImageTk.PhotoImage(img)
         
 
