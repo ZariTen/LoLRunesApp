@@ -27,7 +27,7 @@ if not os.path.isdir(f"{path}/cache"):
 version_control = "11.18.1"
 
 
-def get_between(txt, first, last):  # Pega a string entre first e last
+def get_between(txt, first, last):
     try:
         result = txt[txt.find(first) + len(first):txt.find(last)]
         return result
@@ -62,9 +62,7 @@ def getRunes(champion):
 
     text = soup.get_text()
     lines = (line.strip() for line in text.splitlines())
-    # break multi-headlines into a line each
     chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
-    # drop blank lines
     text = '\n'.join(chunk for chunk in chunks if chunk)
 
     limite = 0
@@ -81,7 +79,7 @@ def getRunes(champion):
         runeZ = runeX.replace(":", "")
         runeZ = runeZ.replace(" ", "")
         runeZ = runeZ.replace("'", "")
-        if runeZ == "FontofLife":  # Some runes have different name on the URL
+        if runeZ == "FontofLife":  # Fix rune names on URL
             runeZ = "FontOfLife"
         if runeZ == "PresstheAttack":
             runeZ = "PressTheAttack"
@@ -103,7 +101,7 @@ def getRunes(champion):
             runeZ = "MirrorShell"
 
         if runeX in runePrecision:
-            if runeZ == "Triumph":  # some runes have different url
+            if runeZ == "Triumph":  # Fix rune names on URL
                 urlRunes.append(
                     "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Triumph.png")
             elif runeZ == "LethalTempo":
@@ -143,7 +141,6 @@ def getRunes(champion):
             urlRunes.append(
                 "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/%s/%s/%s.png" % ("Inspiration", runeZ, runeZ))
 
-    # append to list in order to keep the reference
     for indexImg, urllR in enumerate(urlRunes):
         img_data = requests.get(urllR).content
         with open(f'{path}/cache/{indexImg}rune.png', 'wb') as handle:
@@ -162,17 +159,14 @@ image = None
 labels = []
 
 
-def searchChampion():
-    champion_name = champion_name_entry.get()
-    labelRunes.config(text=''.join(getRunes(champion_name)))
-    for labelz in labels:
-        labelz.destroy()
+def fetch_champion_splash(champion_name):
+    img_data = requests.get(
+        f"http://ddragon.leagueoflegends.com/cdn/{version_control}/img/champion/{champion_name}.png").content
+    with open(f'{path}/cache/champsplash.jpg', 'wb') as handle:
+        handle.write(img_data)
 
-    try:  # Champion Splash Art
-        img_data = requests.get(
-            f"http://ddragon.leagueoflegends.com/cdn/{version_control}/img/champion/{champion_name}.png").content
-        with open(f'{path}/cache/champsplash.jpg', 'wb') as handle:
-            handle.write(img_data)
+def add_champion_splash(champion_name):
+        fetch_champion_splash(champion_name)
         img = Image.open(f'{path}/cache/champsplash.jpg')
         img = img.resize((100, 100), Image.Resampling.LANCZOS)
         image = ImageTk.PhotoImage(img)
@@ -181,11 +175,20 @@ def searchChampion():
         label.pack()
         labels.append(label)
         canvas1.create_image(200, 120, image=image)
+
+def searchChampion():
+    champion_name = champion_name_entry.get()
+    labelRunes.config(text=''.join(getRunes(champion_name)))
+    for labelz in labels:
+        labelz.destroy()
+
+    try: 
+        add_champion_splash(champion_name)
     except:
         pass
 
     rune_ypos = 150
-    for rune_count in range(6):
+    for rune_count in range(6):  # Get all champion runes
         img = Image.open(f'{path}/cache/{rune_count}rune.png')
         img = img.resize((50, 50), Image.Resampling.LANCZOS)
         image = ImageTk.PhotoImage(img)
