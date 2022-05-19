@@ -176,17 +176,7 @@ def add_champion_splash(champion_name):
         labels.append(label)
         canvas1.create_image(200, 120, image=image)
 
-def searchChampion():
-    champion_name = champion_name_entry.get()
-    labelRunes.config(text=''.join(getRunes(champion_name)))
-    for labelz in labels:
-        labelz.destroy()
-
-    try: 
-        add_champion_splash(champion_name)
-    except:
-        pass
-
+def add_champion_runes():
     rune_ypos = 150
     for rune_count in range(6):  # Get all champion runes
         img = Image.open(f'{path}/cache/{rune_count}rune.png')
@@ -204,6 +194,18 @@ def searchChampion():
 
         rune_ypos += 50
         root.geometry('{}x{}'.format(width, height))
+def searchChampion():
+    champion_name = champion_name_entry.get()
+    labelRunes.config(text=''.join(getRunes(champion_name)))
+    for labelz in labels:
+        labelz.destroy()
+
+    try: 
+        add_champion_splash(champion_name)
+        add_champion_runes()
+    except:
+        pass
+
 
 
 search_champion_btn = tk.Button(
