@@ -143,10 +143,7 @@ image = None
 labels =[]
 def searchChampion():
     champion_name = champion_name_entry.get()
-    runes = getRunes(champion_name)
-    labelRunes.config(text=''.join(runes))
-    pos=150
-    indexImg=0
+    labelRunes.config(text=''.join(getRunes(champion_name)))
     for labelz in labels: labelz.destroy()
 
     try: #Champion Splash Art
@@ -163,8 +160,9 @@ def searchChampion():
         canvas1.create_image(200,120,image=image)
     except:pass
 
+    rune_ypos=150
     for rune_count in range(6):
-        img = Image.open(f'{path}/cache/{indexImg}rune.png')
+        img = Image.open(f'{path}/cache/{rune_count}rune.png')
         img = img.resize((50,50),Image.Resampling.LANCZOS)
         image = ImageTk.PhotoImage(img)
         
@@ -174,12 +172,11 @@ def searchChampion():
         label.pack()
         labels.append(label)
         if rune_count > 3:
-            canvas1.create_image(490+60,pos-100,image=image)
+            canvas1.create_image(490+60,rune_ypos-100,image=image)
         else:
-            canvas1.create_image(490,100+pos,image=image)
+            canvas1.create_image(490,100+rune_ypos,image=image)
         
-        pos+= 50
-        indexImg+=1
+        rune_ypos+= 50
         root.geometry('{}x{}'.format(width, height))
      
     
